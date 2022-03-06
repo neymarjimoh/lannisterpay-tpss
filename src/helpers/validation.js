@@ -1,7 +1,7 @@
 import { celebrate } from "celebrate";
 import Joi from "joi";
 
-export const payLoadValidation = () => {
+export const validateTransactionObject = () => {
   const splitInfoValidation = Joi.object().keys({
     SplitType: Joi.valid("FLAT", "RATIO", "PERCENTAGE").required(),
     SplitValue: Joi.number().positive().required(),

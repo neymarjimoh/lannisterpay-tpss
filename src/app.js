@@ -2,8 +2,10 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
-import { errorResponse } from "./helpers/response";
+import { errorResponse, successResponse } from "./helpers/response";
 import { isCelebrateError } from "celebrate";
+import { validateTransactionObject } from "./helpers/validation";
+import computeTpssFee from "./helpers/tpssCompute";
 
 const app = express();
 
@@ -18,6 +20,16 @@ app.get("/", (req, res) => {
     message: "Welcome to LannisterPay TPSS API",
   });
 });
+
+// endpoint to compute TPSS for transactions
+app.post(
+  "/split-payments/compute",
+  validateTransactionObject(),
+  async (req, res) => {
+    const result = computeTpssFee(req.body);
+    return successResponse(res, result);
+  }
+);
 
 app.use("*", (req, res) => {
   return errorResponse(res, "Route / Method not supported", 404);
