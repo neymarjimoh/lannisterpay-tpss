@@ -2,8 +2,6 @@ import { celebrate, Joi } from "celebrate";
 
 export const validateTransactionObject = (req, res, next) => {
   if (req.query.format && req.query.format.toLowerCase() === "xml") {
-    console.log("bify>>>>>", req.body.Root);
-    console.log("fffffff", req.body.Root.SplitInfo);
     const root = req.body.Root;
     const payload = {
       ID: +root.ID[0],
